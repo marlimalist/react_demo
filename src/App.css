@@ -2,6 +2,15 @@
   text-align: center;
 }
 
+button {
+  min-width: 100px;
+  height: 30px;
+}
+
+input {
+  height: 20px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,4 +44,14 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.Converter {
+  display: grid;
+  grid-template-columns: 400px 500px;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
 }
