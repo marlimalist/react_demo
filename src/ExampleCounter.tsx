@@ -33,6 +33,14 @@ function Counter() {
       <p>Zähler: {counter}</p>
       <button onClick={() => setCounter(counter + 1)}>++</button>
       <button onClick={() => setCounter(counter - 1)}>--</button>
+      <button
+        onClick={() => {
+          setCounter((prev) => {
+            return prev + 1;
+          });
+          setCounter(counter + 1);
+        }}
+      ></button>
     </Fragment>
   );
 }
