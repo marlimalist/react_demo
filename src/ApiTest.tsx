@@ -22,8 +22,8 @@ interface Users {
   website: string;
 }
 
-async function fetchData(apiUrl: string): Promise<any> {
-  fetch(apiUrl)
+async function fetchData(apiUrl: string): Promise<any[]> {
+  return fetch(apiUrl)
     .then((response) => {
       if (!response.ok) {
         console.warn("Network not OK");
@@ -32,7 +32,7 @@ async function fetchData(apiUrl: string): Promise<any> {
         return response.json();
       }
     })
-    .then((apiData) => {
+    .then((apiData: any[]) => {
       if (apiData.length === 0) {
         return [];
       } else {
@@ -52,6 +52,7 @@ export function ApiTest() {
     fetchData(apiUrl).then((users: Users[]) => {
       console.log("inside useEffect");
       console.log(users);
+      setData({ ...data, users: users, isLoaded: true });
     });
   }, []);
 
