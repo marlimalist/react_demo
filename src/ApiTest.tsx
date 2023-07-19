@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 
 interface Props {
-  items: Users[];
+  users: Users[];
   isLoaded: boolean;
 }
 
@@ -22,26 +22,48 @@ interface Users {
   website: string;
 }
 
+async function fetchData(apiUrl: string): Promise<any> {
+  fetch(apiUrl)
+    .then((response) => {
+      if (!response.ok) {
+        console.warn("Network not OK");
+        return [];
+      } else {
+        return response.json();
+      }
+    })
+    .then((apiData) => {
+      if (apiData.length === 0) {
+        return [];
+      } else {
+        console.log("inside fetchData");
+        console.log(apiData);
+        return apiData;
+      }
+    });
+}
+
 export function ApiTest() {
-  const [data, setData] = useState<Props>({ items: [], isLoaded: false });
+  const [data, setData] = useState<Props>({ users: [], isLoaded: false });
+
+  const apiUrl = "https://jsonplaceholder.typicode.com/users";
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json() as Promise<Users[]>)
-      .then((json) => {
-        setData({ ...data, items: json, isLoaded: true });
-      });
+    fetchData(apiUrl).then((users: Users[]) => {
+      console.log("inside useEffect");
+      console.log(users);
+    });
   }, []);
 
   return (
     <Fragment>
-      <div>{!data.isLoaded && <p>Loading....</p>}</div>
-      {data.isLoaded && (
+      {!data?.isLoaded && <p>Loading...</p>}
+      {data?.isLoaded && (
         <ul>
-          {data.items.map((user) => {
+          {data.users.map((user) => {
             return (
               <li key={user.id}>
-                Name: {user.address.city} | Email: {user.email}
+                Name: {user.name} | Email: {user.email}
               </li>
             );
           })}
